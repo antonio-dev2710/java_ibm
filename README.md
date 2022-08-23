@@ -54,7 +54,7 @@ SUBINDO NOSSA APLICAÇÃO PARA O GITHUB
    ***********************
 15 - comandos do git para mandar pro gitHub:
    # git init
-   # git commit -m "iniciando projeto com spring no console"
+   # git commit -m " "
    # git remote add origin <link do repositorio no github>
    # git branch -m main
    # git push -u origin main
