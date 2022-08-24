@@ -16,10 +16,12 @@ public class ConsoleApplication {
 		String[] listaDeFrutas = new String[5];
 		String[] listaDePedidos = new String[5];
 		String nomeDoCliente = null;
-		String nomeFrunta;
-		int qtdDeFrutas = 0, total = 0, preco = 0;
+		String nomeFrunta = null;
+		int qtdDeFrutas = 0;
+		double total = 0;
+		double[] registroPrecoFrt = new double[5];
 
-		int ecolhaFrunta = 0, j = 0;
+		int ecolhaFrunta = 0, j = 0, i = 0;
 		while (!sair) {
 			System.out.println("-----------------------");
 			System.out.println(
@@ -35,51 +37,44 @@ public class ConsoleApplication {
 
 				case 1:
 					System.out.println("Digite os produtos que de seja: ");
-					for (int i = 0; i < listaDeFrutas.length; i++) {
+					for (i = 0; i < listaDeFrutas.length; i++) {
 						listaDeFrutas[i] = scan.next();
 					}
-					// bloco de código que será ex.ecutado
+
+					i = 0;
+					for (j = 0; j < listaDeFrutas.length; j++) {
+						System.out.println("Digite o valor do(a): " + listaDeFrutas[i]);
+						registroPrecoFrt[j] = scan.nextDouble();
+						i++;
+					}
 
 					break;
 
 				case 2:
 					System.out.println("Opcao de frutas: ");
-
-					for (int i = 0; i < listaDeFrutas.length; i++) {
-						System.out.println(listaDeFrutas[i]);
+					j = 0;
+					for (i = 0; i < listaDeFrutas.length; i++) {
+						System.out.println(registroPrecoFrt[j] + "-------------" + listaDeFrutas[i]);
+						j++;
 					}
 
 					System.out.println("Digite o nome do cliente: ");
 					nomeDoCliente = scan.next();
 
-					System.out.println(nomeDoCliente + "Escolha a quantida de de frutas: ");
+					System.out.println(nomeDoCliente + " Escolha a quantida de de frutas: ");
 					qtdDeFrutas = scan.nextInt();
 					// lsita de pedido
 					// numero de frutas e um cliente
 					listaDePedidos = new String[qtdDeFrutas];
 
-					for (int i = 0; i < listaDePedidos.length; i++) {
+					for (i = 0; i < listaDePedidos.length; i++) {
 
 						System.out.println(
-								nomeDoCliente + "Escolha as opções de frutas digitando um número de um até cinco: ");
+								nomeDoCliente + " escolha as opções de frutas digitando um número de 1 até cinco 5:");
 						ecolhaFrunta = scan.nextInt();
-						if (ecolhaFrunta == 1) {
-							preco = 5;
-
-						} else if (ecolhaFrunta == 1) {
-							preco = 1;
-						} else if (ecolhaFrunta == 2) {
-							preco = 2;
-						} else if (ecolhaFrunta == 3) {
-							preco = 6;
-						} else if (ecolhaFrunta == 4) {
-							preco = 8;
-						} else {
-							preco = 3;
-						}
-						total += preco;
-
 						ecolhaFrunta -= 1;
+
+						total += registroPrecoFrt[ecolhaFrunta];
 						nomeFrunta = listaDeFrutas[ecolhaFrunta];
 						listaDePedidos[i] = nomeFrunta;
 					}
@@ -87,18 +82,19 @@ public class ConsoleApplication {
 					break;
 
 				case 3:
-					System.out.println("============Relatório======= ");
+					System.out.println("============Relatório========== ");
 					for (String lista : listaDeFrutas) {
 						System.out.println(lista);
 					}
 					System.out.println("Nome do cliente" + ": " + nomeDoCliente);
 					System.out.println("===========Lista de pedido ============ ");
-					for (int i = 0; i < listaDePedidos.length; i++) {
+					for (i = 0; i < listaDePedidos.length; i++) {
 
 						System.out.println(listaDePedidos[i]);
 
 					}
-					System.out.println("Total a pagar :"+"R$"+total);
+					System.out.println("===========Total a pagar ============ ");
+					System.out.println("Total a pagar :" + "R$" + total);
 					sair = true;
 
 			}
