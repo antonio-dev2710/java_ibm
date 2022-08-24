@@ -1,33 +1,50 @@
 package br.com.antonio.console;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ConsoleApplication {
+	/**
+	 * @throws InterruptedException
+	 * 
+	 */
+	public static void esperar(int segundos) throws InterruptedException {
+		TimeUnit.SECONDS.sleep(segundos);
+	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException {
+		// limpa as opções
+		new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 		Scanner scan = new Scanner(System.in);
 
 		boolean sair = false;
 		int opcao = 0;
-		String[] listaDeFrutas = new String[5];
-		String[] listaDePedidos = new String[5];
-		String nomeDoCliente = null;
-		String nomeFrunta = null;
-		int qtdDeFrutas = 0;
-		double total = 0;
-		double[] registroPrecoFrt = new double[5];
+		List<String> produtos = new ArrayList<>();
+		List<String> precoProdutos = new ArrayList<>();
+		List<String> pedidos = new ArrayList<>();
+		List<String> cleintes = new ArrayList<>();
 
-		int ecolhaFrunta = 0, j = 0, i = 0;
+		String nomeFrunta = null, nomecliente;
+		String valorProduto;
+		double precoCdProduto = 0;
+		int qtdDeFrutasCliente = 0, qtdFrutasCadastro = 0, j = 0;
+		double total = 0;
+
+		int ecolhaFruta = 0, i = 0;
 		while (!sair) {
 			System.out.println("-----------------------");
 			System.out.println(
 					" 1- Cadastrar produtos" + "\n" +
 							"2 - Vender produtos (Criar pedidos, com clientes)" + "\n" +
-							"3 - Mostrar relatório dos mesmos"
+							"3 - Mostrar relatório dos mesmos" + "\n" +
+							"4 - Sair do programa"
 
 			);
 			System.out.println("Digite uma opcao");
@@ -36,68 +53,94 @@ public class ConsoleApplication {
 			switch (opcao) {
 
 				case 1:
-					System.out.println("Digite os produtos que de seja: ");
-					for (i = 0; i < listaDeFrutas.length; i++) {
-						listaDeFrutas[i] = scan.next();
+					System.out.println("Digite primeiro a quantidade de produtos que deseja cadastrar: ");
+					qtdFrutasCadastro = scan.nextInt();
+
+					System.out.println("Agora digite o nome de  " + qtdFrutasCadastro + " produtos");
+					for (i = 0; i < qtdFrutasCadastro; i++) {
+
+						nomeFrunta = scan.next();
+						produtos.add(nomeFrunta);
+					}
+					System.out.println("Lista de frutas cadastradas: ");
+					for (i = 0; i < produtos.size(); i++) {
+
+						System.out.println(produtos.get(i));
+
 					}
 
-					i = 0;
-					for (j = 0; j < listaDeFrutas.length; j++) {
-						System.out.println("Digite o valor do(a): " + listaDeFrutas[i]);
-						registroPrecoFrt[j] = scan.nextDouble();
-						i++;
+					System.out.println("Produtos cadastrado comsucesso! ");
+					esperar(2);
+
+					for (i = 0; i < produtos.size(); i++) {
+
+						System.out.println("Digite o valor do(a): " + produtos.get(i));
+						precoCdProduto = scan.nextDouble();// floating literal is double by default
+						valorProduto = String.valueOf(precoCdProduto);
+
+						precoProdutos.add(valorProduto);
+
 					}
 
 					break;
 
 				case 2:
 					System.out.println("Opcao de frutas: ");
-					j = 0;
-					for (i = 0; i < listaDeFrutas.length; i++) {
-						System.out.println(registroPrecoFrt[j] + "-------------" + listaDeFrutas[i]);
-						j++;
+
+					for (i = 0; i < produtos.size(); i++) {
+
+						System.out.println(produtos.get(i) + "------------" + precoProdutos.get(i));
+
 					}
 
-					System.out.println("Digite o nome do cliente: ");
-					nomeDoCliente = scan.next();
+					System.out.println(" Digite o nome do cliente");
+					nomecliente = scan.next();
+					cleintes.add(nomecliente);
 
-					System.out.println(nomeDoCliente + " Escolha a quantida de de frutas: ");
-					qtdDeFrutas = scan.nextInt();
-					// lsita de pedido
-					// numero de frutas e um cliente
-					listaDePedidos = new String[qtdDeFrutas];
+					System.out.println(cleintes.get(j) + " digite a quantidade de produtos");
+					qtdDeFrutasCliente = scan.nextInt();
 
-					for (i = 0; i < listaDePedidos.length; i++) {
+					System.out.println(" Digite o número do pedido de 1 a " + produtos.size());
+					for (i = 0; i < qtdDeFrutasCliente; i++) {
 
-						System.out.println(
-								nomeDoCliente + " escolha as opções de frutas digitando um número de 1 até cinco 5:");
-						ecolhaFrunta = scan.nextInt();
-						ecolhaFrunta -= 1;
-
-						total += registroPrecoFrt[ecolhaFrunta];
-						nomeFrunta = listaDeFrutas[ecolhaFrunta];
-						listaDePedidos[i] = nomeFrunta;
+						ecolhaFruta = scan.nextInt();
+						ecolhaFruta -= 1;
+						// valor total do pedido
+						valorProduto = precoProdutos.get(ecolhaFruta);
+						double valorProdutoFinal = Double.parseDouble(valorProduto);
+						total += valorProdutoFinal;
+						// lista pedido
+						String pedidoCliente = produtos.get(ecolhaFruta);
+						pedidos.add(pedidoCliente);
 					}
 
 					break;
 
 				case 3:
 					System.out.println("============Relatório========== ");
-					for (String lista : listaDeFrutas) {
-						System.out.println(lista);
-					}
-					System.out.println("Nome do cliente" + ": " + nomeDoCliente);
-					System.out.println("===========Lista de pedido ============ ");
-					for (i = 0; i < listaDePedidos.length; i++) {
+					for (i = 0; i < produtos.size(); i++) {
 
-						System.out.println(listaDePedidos[i]);
+						System.out.println(produtos.get(i));
+
+					}
+					System.out.println("Nome do cliente" + ": " + cleintes.get(j));
+					System.out.println("===========Lista de pedido ============ ");
+					for (i = 0; i < qtdDeFrutasCliente; i++) {
+
+						System.out.println(pedidos.get(i));
 
 					}
 					System.out.println("===========Total a pagar ============ ");
 					System.out.println("Total a pagar :" + "R$" + total);
+
+					break;
+
+				case 4:
+					System.out.println("Operação finalizada, volte sempre!!! :) ");
 					sair = true;
 
 			}
+
 		}
 		// SpringApplication.run(ConsoleApplication.class, args);
 
