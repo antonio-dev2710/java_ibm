@@ -3,10 +3,14 @@ Configuração e instalação do springBoot
 *************************
   ```INSTALAÇÕES E CONFIGURAÇÕES
 
-   # instalações e comandos no console é a primeira (https://www.youtube.com/watch?v=OXbPZPmt2ys)
- # configurações de variáveis de ambiente, java (jdk) na máquina:  https://www.youtube.com/watch?v=xzAESAp_soQ
+   instalações e comandos no console é a primeira (https://www.youtube.com/watch?v=OXbPZPmt2ys)
+   
+  configurações de variáveis de ambiente, java (jdk) na máquina:  https://www.youtube.com/watch?v=xzAESAp_soQ
+  
    -> para verificar se deu certo, no console cmd dar o comando: java -version
-# instalar e configurar variáveis de ambiente maven na máquina:  https://www.youtube.com/watch?v=-ucX5w8Zm8s 
+   
+ instalar e configurar variáveis de ambiente maven na máquina:  https://www.youtube.com/watch?v=-ucX5w8Zm8s 
+ 
    -> para verificar se deu certo, no console cmd dar o comando: mvn -version
      ```
 *************************
